@@ -14,11 +14,15 @@ using namespace std;
 const float pi = 3.141592741012573242187500;
 
 // Sphere within 3D space
-sphere sphere1(point(0.0f, 0.0f, -5.0f), 2.0f);
+sphere sphere1(point(-2.0f, 1.0f, -5.0f), 0.5f);
+sphere sphere2(point(2.0f, -1.0f, -5.0f), 0.7f);
+sphere sphere3(point(0.0f, 0.0f, -5.0f), 1.0f);
 
 // Colors for background and sphere
 pixel background_color(0.0f, 0.0f, 0.0f);
-pixel sphere_color(0.0f, 0.0f, 1.0f);
+pixel sphere_color1(0.0f, 0.0f, 1.0f);
+pixel sphere_color2(1.0f, 0.0f, 0.0f);
+pixel sphere_color3(0.0f, 1.0f, 0.0f);
 
 // Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
 bool ray_sphere_intersect_test(
@@ -75,13 +79,23 @@ void render()
             my_vector view_vec(x_view, y_view, -1.0f, 1.0f);
             my_vector view_vec_norm = view_vec.normalize();
 
-            // Tests if view vector intersects with sphere
-            bool is_intersect = ray_sphere_intersect_test(sphere1, view_vec_norm);
+            // Tests if view vector intersects with spheres
+            bool is_intersect1 = ray_sphere_intersect_test(sphere1, view_vec_norm);
+            bool is_intersect2 = ray_sphere_intersect_test(sphere2, view_vec_norm);
+            bool is_intersect3 = ray_sphere_intersect_test(sphere3, view_vec_norm);
 
             // Puts color to frame buffer depending on intersection or not
-            if (is_intersect)
+            if (is_intersect1)
             {
-                frame_buffer[j + i * width] = sphere_color;
+                frame_buffer[j + i * width] = sphere_color1;
+            }
+            else if (is_intersect2)
+            {
+                frame_buffer[j + i * width] = sphere_color2;
+            }
+            else if (is_intersect3)
+            {
+                frame_buffer[j + i * width] = sphere_color3;
             }
             else
             {
