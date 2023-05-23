@@ -59,6 +59,12 @@ public:
     }
 };
 
+// Scalar multiplication (vector first)
+my_vector operator*(const my_vector& vec, float scalar);
+
+// Scalar multiplication with vector (scalar first)
+my_vector operator*(float scalar, const my_vector& vec);
+
 typedef my_vector point;
 
 #endif

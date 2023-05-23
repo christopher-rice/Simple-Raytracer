@@ -82,3 +82,23 @@ float my_vector::operator*(const my_vector& vec) const
 {
 	return((this->get_x() * vec.get_x()) + (this->get_y() * vec.get_y()) + (this->get_z() * vec.get_z()));
 }
+
+// Scalar multiplication
+my_vector operator*(const my_vector& vec, float scalar)
+{
+	float new_x = scalar * vec.get_x();
+	float new_y = scalar * vec.get_y();
+	float new_z = scalar * vec.get_z();
+
+	return(my_vector(new_x, new_y, new_z));
+}
+
+// Scalar multiplication with vector (scalar first)
+my_vector operator*(float scalar, const my_vector& vec)
+{
+	float new_x = scalar * vec.get_x();
+	float new_y = scalar * vec.get_y();
+	float new_z = scalar * vec.get_z();
+
+	return(my_vector(new_x, new_y, new_z));
+}
