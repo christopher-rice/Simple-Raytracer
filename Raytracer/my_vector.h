@@ -50,13 +50,16 @@ public:
     float get_length_squared() const;
 
     // Returns a normalized vector
-    //my_vector normalize() const;
+    my_vector normalize() const;
 
     // Adding two vectors
     my_vector operator+(const my_vector& vec) const;
 
     // Subtracting two vectors
     my_vector operator-(const my_vector& vec) const;
+
+    // Dividing by scalar
+    my_vector operator/(float scalar) const;
 
     // Dot product of two vectors
     float operator*(const my_vector& vec) const;

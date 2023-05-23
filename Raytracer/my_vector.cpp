@@ -77,6 +77,16 @@ my_vector my_vector::operator-(const my_vector& vec) const
 	return(my_vector(new_x, new_y, new_z));
 }
 
+// Dividing by scalar
+my_vector my_vector::operator/(float scalar) const
+{
+	float new_x = this->get_x() / scalar;
+	float new_y = this->get_y() / scalar;
+	float new_z = this->get_z() / scalar;
+
+	return(my_vector(new_x, new_y, new_z));
+}
+
 // Dot product of two vectors
 float my_vector::operator*(const my_vector& vec) const
 {
@@ -93,6 +103,12 @@ float my_vector::get_length() const
 float my_vector::get_length_squared() const
 {
 	return((this->x * this->x) + (this->y * this->y) + (this->z * this->z));
+}
+
+// Returns a normalized vector
+my_vector my_vector::normalize() const
+{
+	return(*this / this->get_length());
 }
 
 // Scalar multiplication

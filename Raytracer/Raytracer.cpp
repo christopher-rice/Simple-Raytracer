@@ -56,7 +56,8 @@ void render()
             float y_view = -1.0f * tanf((fov / (2 * aspect_ratio)) * (pi / 180)) * ((2.0f * i + 1.0f - height) / height);
             
             // Creating the normalized view vector
-            my_vector view_vector(x_view, y_view, -1.0f, 1.0f);
+            my_vector view_vec(x_view, y_view, -1.0f, 1.0f);
+            my_vector view_vec_norm = view_vec.normalize();
 
             frame_buffer[j + i * width].set_rgb(i / float(height), j / float(width), 0.0f);
         }
@@ -86,7 +87,12 @@ void render()
 int main()
 {
     cout << "Raytracing Start" << endl;
-    render();
+    //render();
+
+    my_vector vec1(1.0f, 2.0f, 3.0f);
+    my_vector norm_vec = vec1.normalize();
+    cout << "The normalized vector of " << vec1 << " is " << norm_vec << endl;
+
     cout << "Raytracing End" << endl;
 
     return(0);
