@@ -26,6 +26,14 @@ public:
 
 	// Radius setter
 	void set_radius(float radius);
+
+	// Overload for output
+	friend ostream& operator<<(ostream& output, const sphere& sphere)
+	{
+		output << "Center = <" << sphere.center.get_x() << ", " << sphere.center.get_y() << ", " << sphere.center.get_z() << "> ";
+		output << "Radius = " << sphere.radius;
+		return output;
+	}
 };
 
 #endif
