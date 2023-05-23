@@ -58,7 +58,7 @@ void my_vector::set_w(float w)
 }
 
 // Adding two vectors
-my_vector my_vector::operator+(const my_vector& vec)
+my_vector my_vector::operator+(const my_vector& vec) const
 {
 	float new_x = this->get_x() + vec.get_x();
 	float new_y = this->get_y() + vec.get_y();
@@ -68,11 +68,17 @@ my_vector my_vector::operator+(const my_vector& vec)
 }
 
 // Subtracting two vectors
-my_vector my_vector::operator-(const my_vector& vec)
+my_vector my_vector::operator-(const my_vector& vec) const
 {
 	float new_x = this->get_x() - vec.get_x();
 	float new_y = this->get_y() - vec.get_y();
 	float new_z = this->get_z() - vec.get_z();
 
 	return(my_vector(new_x, new_y, new_z));
+}
+
+// Dot product of two vectors
+float my_vector::operator*(const my_vector& vec) const
+{
+	return((this->get_x() * vec.get_x()) + (this->get_y() * vec.get_y()) + (this->get_z() * vec.get_z()));
 }

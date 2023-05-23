@@ -43,10 +43,13 @@ public:
     void set_w(float w);
 
     // Adding two vectors
-    my_vector operator+(const my_vector& vec);
+    my_vector operator+(const my_vector& vec) const;
 
     // Subtracting two vectors
-    my_vector operator-(const my_vector& vec);
+    my_vector operator-(const my_vector& vec) const;
+
+    // Dot product of two vectors
+    float operator*(const my_vector& vec) const;
 
     // Overload for output
     friend ostream& operator<<(ostream& output, const my_vector& vec)
