@@ -13,6 +13,13 @@ using namespace std;
 // Value of pi
 const float pi = 3.141592741012573242187500;
 
+// Sphere within 3D space
+sphere sphere1(point(0.0f, 0.0f, -5.0f), 2.0f);
+
+// Colors for background and sphere
+pixel background_color(0.0f, 0.0f, 0.0f);
+pixel sphere_color(0.0f, 0.0f, 1.0f);
+
 // Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
 bool ray_sphere_intersect_test(
     const sphere& sphere,       // Sphere to be intersected
@@ -68,10 +75,18 @@ void render()
             my_vector view_vec(x_view, y_view, -1.0f, 1.0f);
             my_vector view_vec_norm = view_vec.normalize();
 
-            //TEST
-            cout << view_vec_norm << endl;
+            // Tests if view vector intersects with sphere
+            bool is_intersect = ray_sphere_intersect_test(sphere1, view_vec_norm);
 
-            frame_buffer[j + i * width].set_rgb(i / float(height), j / float(width), 0.0f);
+            // Puts color to frame buffer depending on intersection or not
+            if (is_intersect)
+            {
+                frame_buffer[j + i * width] = sphere_color;
+            }
+            else
+            {
+                frame_buffer[j + i * width] = background_color;
+            }
         }
     }
 
