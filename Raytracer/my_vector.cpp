@@ -83,6 +83,18 @@ float my_vector::operator*(const my_vector& vec) const
 	return((this->get_x() * vec.get_x()) + (this->get_y() * vec.get_y()) + (this->get_z() * vec.get_z()));
 }
 
+// Length getter
+float my_vector::get_length() const
+{
+	return(sqrtf((this->x * this->x) + (this->y * this->y) + (this->z * this->z)));
+}
+
+// Squared length getter
+float my_vector::get_length_squared() const
+{
+	return((this->x * this->x) + (this->y * this->y) + (this->z * this->z));
+}
+
 // Scalar multiplication
 my_vector operator*(const my_vector& vec, float scalar)
 {

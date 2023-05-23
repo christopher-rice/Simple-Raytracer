@@ -4,6 +4,7 @@
 #define __MY_VECTOR_H__
 
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 class my_vector
@@ -41,6 +42,15 @@ public:
 
     // W-component setter
     void set_w(float w);
+
+    // Length getter
+    float get_length() const;
+
+    // Squared length getter
+    float get_length_squared() const;
+
+    // Returns a normalized vector
+    //my_vector normalize() const;
 
     // Adding two vectors
     my_vector operator+(const my_vector& vec) const;
