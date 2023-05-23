@@ -16,19 +16,19 @@ public:
     my_vector(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f);
 
     // X-component getter
-    float get_x();
+    float get_x() const;
 
     // X-component setter
     void set_x(float x);
 
     // Y-component getter
-    float get_y();
+    float get_y() const;
 
     // Y-component setter
     void set_y(float y);
 
     // Z-component getter
-    float get_z();
+    float get_z() const;
 
     // Z-component setter
     void set_z(float z);
@@ -38,6 +38,12 @@ public:
 
     // W-component setter
     void set_w(float w);
+
+    // Adding two vectors
+    my_vector operator+(const my_vector& vec);
+
+    // Subtracting two vectors
+    my_vector operator-(const my_vector& vec);
 };
 
 typedef my_vector point;

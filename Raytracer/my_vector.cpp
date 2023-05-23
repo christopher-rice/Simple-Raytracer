@@ -10,7 +10,7 @@ my_vector::my_vector(float x, float y, float z, float w)
 }
 
 // X-component getter
-float my_vector::get_x() 
+float my_vector::get_x() const
 {
 	return(this->x);
 }
@@ -22,7 +22,7 @@ void my_vector::set_x(float x)
 }
 
 // Y-component getter
-float my_vector::get_y()
+float my_vector::get_y() const
 {
 	return(this->y);
 }
@@ -34,7 +34,7 @@ void my_vector::set_y(float y)
 }
 
 // Z-component getter
-float my_vector::get_z()
+float my_vector::get_z() const
 {
 	return(this->z);
 }
@@ -55,4 +55,24 @@ float my_vector::get_w()
 void my_vector::set_w(float w)
 {
 	this->w = w;
+}
+
+// Adding two vectors
+my_vector my_vector::operator+(const my_vector& vec)
+{
+	float new_x = this->get_x() + vec.get_x();
+	float new_y = this->get_y() + vec.get_y();
+	float new_z = this->get_z() + vec.get_z();
+
+	return(my_vector(new_x, new_y, new_z));
+}
+
+// Subtracting two vectors
+my_vector my_vector::operator-(const my_vector& vec)
+{
+	float new_x = this->get_x() - vec.get_x();
+	float new_y = this->get_y() - vec.get_y();
+	float new_z = this->get_z() - vec.get_z();
+
+	return(my_vector(new_x, new_y, new_z));
 }
