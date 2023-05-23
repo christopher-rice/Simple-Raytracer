@@ -127,12 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="my_vector.cpp" />
     <ClCompile Include="pixel.cpp" />
     <ClCompile Include="Raytracer.cpp" />
     <ClCompile Include="sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="light.h" />
     <ClInclude Include="my_vector.h" />
     <ClInclude Include="pixel.h" />
     <ClInclude Include="sphere.h" />
