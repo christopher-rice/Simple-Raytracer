@@ -13,18 +13,33 @@ using namespace std;
 // Value of pi
 const float pi = 3.141592741012573242187500;
 
-// Checks if ray intersects with sphere
-/*
+// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
 bool ray_sphere_intersect_test(
-    my_vector ray_origin,       // Vector representing the origin of the ray
-    my_vector ray_direction,    // Vector representing the direction of the ray
-    my_vector sphere_center,    // Vector representing the position of the center of the sphere
-    float sphere_radius         // The radius of the sphere
+    const sphere& sphere,       // Sphere to be intersected
+    const my_vector& vec        // Ray doing the intersection (must be normalized)
 )
 {
+    // Gets vector from origin (camera location) to center of sphere
+    my_vector OriginToCenter = sphere.get_center();
 
+    // Finds dot product between ray and vector to center of sphere
+    float dot_prod = vec * OriginToCenter;
+
+    // If the ray and vector to center of sphere are facing opposite directions then intersection isn't possible
+    if (dot_prod < 0)
+    {
+        return(false);
+    }
+
+    // Finds projection of vector to center of sphere on to ray
+    my_vector proj_vec = vec * dot_prod;
+
+    // Finds vector from center of sphere to tip of projection
+    my_vector dist_vec = proj_vec - sphere.get_center();
+
+    // Intersection occurs if the radius is greater than or equal to the length of the distance vector
+    return(dist_vec.get_length() <= sphere.get_radius());
 }
-*/
 
 // Renders the image to the frame buffer
 void render()
