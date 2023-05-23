@@ -6,18 +6,12 @@
 
 #include "my_vector.h"
 #include "pixel.h"
+#include "sphere.h"
 
 using namespace std;
 
 // Value of pi
-const double pi = 3.14159265358979323846;
-
-// Sphere representation
-struct sphere
-{
-    my_vector center;       // Location of the center of the sphere
-    float radius = 0.0f;    // Radius of the circle
-};
+const float pi = 3.141592741012573242187500;
 
 // Checks if ray intersects with sphere
 /*
@@ -59,6 +53,9 @@ void render()
             my_vector view_vec(x_view, y_view, -1.0f, 1.0f);
             my_vector view_vec_norm = view_vec.normalize();
 
+            //TEST
+            cout << view_vec_norm << endl;
+
             frame_buffer[j + i * width].set_rgb(i / float(height), j / float(width), 0.0f);
         }
     }
@@ -87,12 +84,7 @@ void render()
 int main()
 {
     cout << "Raytracing Start" << endl;
-    //render();
-
-    my_vector vec1(1.0f, 2.0f, 3.0f);
-    my_vector norm_vec = vec1.normalize();
-    cout << "The normalized vector of " << vec1 << " is " << norm_vec << endl;
-
+    render();
     cout << "Raytracing End" << endl;
 
     return(0);

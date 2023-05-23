@@ -130,10 +130,12 @@
     <ClCompile Include="my_vector.cpp" />
     <ClCompile Include="pixel.cpp" />
     <ClCompile Include="Raytracer.cpp" />
+    <ClCompile Include="sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="my_vector.h" />
     <ClInclude Include="pixel.h" />
+    <ClInclude Include="sphere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
