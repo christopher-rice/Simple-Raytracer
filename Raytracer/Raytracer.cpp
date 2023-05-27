@@ -84,11 +84,21 @@ void render()
                 // Gets color from sphere if hit occurs
                 if (hit_check)
                 {
+                    // Gets normalized vector to camera (Assumes camera is at origin
+                    eye_vec_norm = point() - hit;
+
+                    // Gets color from the geometry
                     drawn_pixel = geometry_vec[i].get_color();
 
                     // Calculates incidence of light at hit
                     for (int i = 0; i < light_vec.size(); i++)
                     {
+                        // Gets normalized vector to light
+                        light_vec_norm = light_vec[i].get_position() - hit;
+
+                        // Gets reflected vector to light
+                        reflect_vec_norm = 2 * (light_vec_norm * normal_vec_norm) * normal_vec_norm - light_vec_norm;
+
                         light_incidence += geometry_vec[i].light_diffuse_calc(hit, scene_light);
                     }
 

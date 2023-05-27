@@ -44,8 +44,6 @@ public:
 	// Calculates the diffuse light componen
 	float light_diffuse_calc(const point& hit, const light& light) const;
 
-	// Calculates the 
-
 	// Overload for output
 	friend ostream& operator<<(ostream& output, const sphere& sphere)
 	{
