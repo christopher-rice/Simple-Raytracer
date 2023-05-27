@@ -1,10 +1,11 @@
 #include "sphere.h"
 
 // Constructor
-sphere::sphere(point center, float radius)
+sphere::sphere(const point& center, float radius, const pixel& color)
 {
 	this->center = center;
 	this->radius = radius;
+	this->color = color;
 }
 
 // Center getter
@@ -31,10 +32,22 @@ void sphere::set_radius(float radius)
 	this->radius = radius;
 }
 
+// Color getter
+pixel sphere::get_color() const
+{
+	return(color);
+}
+
+// Color setter
+void sphere::set_color(const pixel& color)
+{
+	this->color = color;
+}
+
 // Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
-bool sphere::ray_sphere_intersect_test(
+bool sphere::ray_sphere_intersect_test (
 	const my_vector& vec        // Ray doing the intersection (must be normalized)
-)
+) const
 {
 	// Gets vector from origin (camera location) to center of sphere
 	my_vector OriginToCenter = this->get_center();
