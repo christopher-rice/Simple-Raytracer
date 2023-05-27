@@ -92,25 +92,30 @@ bool sphere::ray_sphere_intersect_test (
 	return(hit_check);
 }
 
-// Calculates the incidence of specific light on specific point (Returns a value between 0 to 1 with 1 being direct)
-float sphere::light_diffuse_calc(
-	const point& hit,
-	const light& light)
-	const
+// Calculates the diffuse light component
+pixel sphere::light_diffuse_calc(
+	const light& light, 
+	const my_vector& normal_vec_norm, 
+	const my_vector& light_vec_norm
+) const
 {
-	// Getting the normalized vector normal to the surface of the sphere at hit
-	my_vector normal_vec_norm = (hit - center).normalize();
+	float red_intensity = color.get_red() * light.get_intensity() * (normal_vec_norm * light_vec_norm);
+	float green_intensity = color.get_green() * light.get_intensity() * (normal_vec_norm * light_vec_norm);
+	float blue_intensity = color.get_blue() * light.get_intensity() * (normal_vec_norm * light_vec_norm);
 
-	// Getting the normalized vector from the point to the light source
-	my_vector light_vec_norm = (light.get_position() - hit).normalize();
+	return(pixel(red_intensity, green_intensity, blue_intensity));
+}
 
-	// Calculating the incidence between the two vectors
-	float incidence = normal_vec_norm * light_vec_norm;
+// Calculates the specular light component
+pixel sphere::light_specular_calc(
+	const light& light, 
+	const my_vector& eye_vec_norm, 
+	const my_vector& reflect_vec_norm
+) const
+{
+	float red_intensity = color.get_red() * light.get_intensity() * (eye_vec_norm * reflect_vec_norm);
+	float green_intensity = color.get_green() * light.get_intensity() * (eye_vec_norm * reflect_vec_norm);
+	float blue_intensity = color.get_blue() * light.get_intensity() * (eye_vec_norm * reflect_vec_norm);
 
-	if (incidence < 0)
-	{
-		return(0.0f);
-	}
-
-	return(incidence);
+	return(pixel(red_intensity, green_intensity, blue_intensity));
 }

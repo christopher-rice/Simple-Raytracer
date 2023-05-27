@@ -41,8 +41,11 @@ public:
 								   point& hit, 
 								   my_vector& normal_vec_norm) const;
 
-	// Calculates the diffuse light componen
-	float light_diffuse_calc(const point& hit, const light& light) const;
+	// Calculates the diffuse light component
+	pixel light_diffuse_calc(const light& light, const my_vector& normal_vec_norm, const my_vector& light_vec_norm) const;
+
+	// Calculates the specular light component
+	pixel light_specular_calc(const light& light, const my_vector& eye_vec_norm, const my_vector& reflect_vec_norm) const;
 
 	// Overload for output
 	friend ostream& operator<<(ostream& output, const sphere& sphere)

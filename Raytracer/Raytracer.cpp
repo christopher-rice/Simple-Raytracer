@@ -36,7 +36,7 @@ void render()
 
     // Vector that will contain all lights within the scene
     vector<light> light_vec = {
-        light(point(-2.0f, 1.0f, 0.0f), 0.25f),
+        light(point(-2.0f, 1.0f, 0.0f), 0.25f), 
         light(point(2.0f, -1.0f, 0.0f), 0.7f)
     };
 
@@ -87,9 +87,6 @@ void render()
                     // Gets normalized vector to camera (Assumes camera is at origin
                     eye_vec_norm = point() - hit;
 
-                    // Gets color from the geometry
-                    drawn_pixel = geometry_vec[i].get_color();
-
                     // Calculates incidence of light at hit
                     for (int i = 0; i < light_vec.size(); i++)
                     {
@@ -99,19 +96,15 @@ void render()
                         // Gets reflected vector to light
                         reflect_vec_norm = 2 * (light_vec_norm * normal_vec_norm) * normal_vec_norm - light_vec_norm;
 
-                        light_incidence += geometry_vec[i].light_diffuse_calc(hit, scene_light);
-                    }
+                        // Calculating diffuse and specular light
+                        pixel diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[i], normal_vec_norm, light_vec_norm);
+                        pixel specular_color = geometry_vec[i].light_specular_calc(light_vec[i], eye_vec_norm, reflect_vec_norm);
 
-                    // Caps the light incidence at 1
-                    if (light_incidence > 1.0f)
-                    {
-                        light_incidence = 1.0f;
+                        // Adding light intensities 
+                        drawn_pixel.set_red(drawn_pixel.get_red() + diffuse_color.get_red() + specular_color.get_red());
+                        drawn_pixel.set_green(drawn_pixel.get_green() + diffuse_color.get_green() + specular_color.get_green());
+                        drawn_pixel.set_red(drawn_pixel.get_blue() + diffuse_color.get_blue() + specular_color.get_blue());
                     }
-
-                    // Adjusting sphere color to light
-                    drawn_pixel.set_red(drawn_pixel.get_red() * light_incidence);
-                    drawn_pixel.set_green(drawn_pixel.get_green() * light_incidence);
-                    drawn_pixel.set_blue(drawn_pixel.get_blue() * light_incidence);
 
                     // Exits loop once light is calculated
                     break;
