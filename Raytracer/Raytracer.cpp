@@ -100,10 +100,8 @@ void render()
                         pixel diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[i], normal_vec_norm, light_vec_norm);
                         pixel specular_color = geometry_vec[i].light_specular_calc(light_vec[i], eye_vec_norm, reflect_vec_norm);
 
-                        // Adding light intensities 
-                        drawn_pixel.set_red(drawn_pixel.get_red() + diffuse_color.get_red() + specular_color.get_red());
-                        drawn_pixel.set_green(drawn_pixel.get_green() + diffuse_color.get_green() + specular_color.get_green());
-                        drawn_pixel.set_red(drawn_pixel.get_blue() + diffuse_color.get_blue() + specular_color.get_blue());
+                        // Adding light intensities
+                        drawn_pixel = drawn_pixel + diffuse_color + specular_color;
                     }
 
                     // Exits loop once light is calculated
