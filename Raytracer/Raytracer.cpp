@@ -13,16 +13,8 @@ using namespace std;
 // Value of pi
 const float pi = 3.141592741012573242187500;
 
-// Sphere within 3D space
-sphere sphere1(point(-2.0f, 1.0f, -5.0f), 0.5f);
-sphere sphere2(point(2.0f, -1.0f, -5.0f), 0.7f);
-sphere sphere3(point(0.0f, 0.0f, -5.0f), 1.0f);
-
 // Colors for background and sphere
 pixel background_color(0.0f, 0.0f, 0.0f);
-pixel sphere_color1(0.0f, 0.0f, 1.0f);
-pixel sphere_color2(1.0f, 0.0f, 0.0f);
-pixel sphere_color3(0.0f, 1.0f, 0.0f);
 
 // Renders the image to the frame buffer
 void render()
@@ -38,6 +30,13 @@ void render()
     // Vector that contains all pixels in the pic
     vector<pixel> frame_buffer(width * height);
 
+    // Vector that will contain all spheres to be drawn
+    vector<sphere> geometry_vec = {
+        sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, pixel(0.0f, 0.0f, 1.0f)),
+        sphere(point(2.0f, -1.0f, -5.0f), 0.7f, pixel(1.0f, 0.0f, 0.0f)),
+        sphere(point(0.0f, 0.0f, -5.0f), 1.0f, pixel(0.0f, 1.0f, 0.0f))
+    };
+
     // Looping through all the pixels in the frame buffer
     for (size_t i = 0; i < height; i++) 
     {
@@ -51,28 +50,20 @@ void render()
             my_vector view_vec(x_view, y_view, -1.0f, 1.0f);
             my_vector view_vec_norm = view_vec.normalize();
 
-            // Tests if view vector intersects with spheres
-            bool is_intersect1 = sphere1.ray_sphere_intersect_test(view_vec_norm);
-            bool is_intersect2 = sphere2.ray_sphere_intersect_test(view_vec_norm);
-            bool is_intersect3 = sphere3.ray_sphere_intersect_test(view_vec_norm);
+            // Color of pixel to be drawn to screen
+            pixel drawn_pixel = background_color;
 
-            // Puts color to frame buffer depending on intersection or not
-            if (is_intersect1)
+            // Tests if view vector intersects with spheres
+            for (int i = 0; i < geometry_vec.size(); i++)
             {
-                frame_buffer[j + i * width] = sphere_color1;
+                if (geometry_vec[i].ray_sphere_intersect_test(view_vec_norm))
+                {
+                    drawn_pixel = geometry_vec[i].get_color();
+                }
             }
-            else if (is_intersect2)
-            {
-                frame_buffer[j + i * width] = sphere_color2;
-            }
-            else if (is_intersect3)
-            {
-                frame_buffer[j + i * width] = sphere_color3;
-            }
-            else
-            {
-                frame_buffer[j + i * width] = background_color;
-            }
+
+            // Draws color to pixel buffer
+            frame_buffer[j + i * width] = drawn_pixel;
         }
     }
 
