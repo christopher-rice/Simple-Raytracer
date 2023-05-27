@@ -87,3 +87,26 @@ bool sphere::ray_sphere_intersect_test (
 
 	return(hit_check);
 }
+
+// Calculates the incidence of specific light on specific point (Returns a value between 0 to 1 with 1 being direct)
+float sphere::light_incidence_calc(
+	const point& hit,
+	const light& light)
+	const
+{
+	// Getting the normalized vector normal to the surface of the sphere at hit
+	my_vector normal_vec_norm = (hit - center).normalize();
+
+	// Getting the normalized vector from the point to the light source
+	my_vector light_vec_norm = (light.get_position() - hit).normalize();
+
+	// Calculating the incidence between the two vectors
+	float incidence = normal_vec_norm * light_vec_norm;
+
+	if (incidence < 0)
+	{
+		return(0.0f);
+	}
+
+	return(incidence);
+}

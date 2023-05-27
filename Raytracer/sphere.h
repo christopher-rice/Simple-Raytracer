@@ -5,6 +5,7 @@
 
 #include "my_vector.h"
 #include "pixel.h"
+#include "light.h"
 
 class sphere
 {
@@ -37,6 +38,9 @@ public:
 
 	// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
 	bool ray_sphere_intersect_test(const my_vector& vec, point& hit) const;
+
+	// Calculates the incidence of specific light on specific point
+	float light_incidence_calc(const point& hit, const light& light) const;
 
 	// Overload for output
 	friend ostream& operator<<(ostream& output, const sphere& sphere)

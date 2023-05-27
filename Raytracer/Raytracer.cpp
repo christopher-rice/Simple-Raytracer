@@ -7,6 +7,7 @@
 #include "my_vector.h"
 #include "pixel.h"
 #include "sphere.h"
+#include "light.h"
 
 using namespace std;
 
@@ -15,6 +16,9 @@ const float pi = 3.141592741012573242187500;
 
 // Colors for background and sphere
 pixel background_color(0.0f, 0.0f, 0.0f);
+
+// Singular light in the scene at the origin
+light scene_light;
 
 // Renders the image to the frame buffer
 void render()
@@ -57,6 +61,9 @@ void render()
             bool hit_check;
             point hit;
 
+            // Incidence of light at point
+            float light_incidence = 0.0f;
+
             // Tests if view vector intersects with spheres
             for (int i = 0; i < geometry_vec.size(); i++)
             {
@@ -67,8 +74,13 @@ void render()
                 if (hit_check)
                 {
                     drawn_pixel = geometry_vec[i].get_color();
+
+                    // Calculates incidence of light at hit
+                    light_incidence = geometry_vec[i].light_incidence_calc(hit, scene_light);
                 }
             }
+
+            cout << light_incidence << endl;
 
             // Draws color to pixel buffer
             frame_buffer[j + i * width] = drawn_pixel;
