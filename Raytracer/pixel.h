@@ -38,6 +38,9 @@ public:
     // Sets full RGB
     void set_rgb(float red, float green, float blue);
 
+    // Caps RGB
+    void cap_rgb();
+
     // Adding two pixels
     pixel operator+(const pixel &pix) const;
 

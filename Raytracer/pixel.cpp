@@ -52,6 +52,37 @@ void pixel::set_rgb(float red, float green, float blue)
 	this->blue = blue;
 }
 
+// Caps RGB
+void pixel::cap_rgb()
+{
+	if (red < 0.0f)
+	{
+		red = 0.0f;
+	}
+	else if (red > 1.0f)
+	{
+		red = 1.0f;
+	}
+
+	if (green < 0.0f)
+	{
+		green = 0.0f;
+	}
+	else if (green > 1.0f)
+	{
+		green = 1.0f;
+	}
+
+	if (blue < 0.0f)
+	{
+		blue = 0.0f;
+	}
+	else if (blue > 1.0f)
+	{
+		blue = 1.0f;
+	}
+}
+
 // Adding two pixels
 pixel pixel::operator+(const pixel & pix) const
 {

@@ -17,9 +17,6 @@ const float pi = 3.141592741012573242187500;
 // Colors for background and sphere
 pixel background_color(0.0f, 0.0f, 0.0f);
 
-// Singular light in the scene at the origin
-light scene_light(point(-2.0f, 1.0f, 0.0f));
-
 // Renders the image to the frame buffer
 void render()
 {
@@ -36,11 +33,11 @@ void render()
 
     // Vector that will contain all lights within the scene
     vector<light> light_vec = {
-        light(point(-2.0f, 1.0f, 0.0f), 0.25f), 
+        light(point(-2.0f, 1.0f, 0.0f), 0.25f),
         light(point(2.0f, -1.0f, 0.0f), 0.7f)
     };
 
-    // Vector that will contain all spheres to be drawn
+    // Vector that contains all geometry in the scene
     vector<sphere> geometry_vec = {
         sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, pixel(0.0f, 0.0f, 1.0f)),
         sphere(point(2.0f, -1.0f, -5.0f), 0.7f, pixel(1.0f, 0.0f, 0.0f)),
@@ -72,9 +69,6 @@ void render()
             my_vector light_vec_norm; // Vector from hit point to light
             my_vector reflect_vec_norm; // Vector of light vector reflected across normal
 
-            // Incidence of light at point
-            float light_incidence = 0.0f;
-
             // Tests if view vector intersects with spheres
             for (int i = 0; i < geometry_vec.size(); i++)
             {
@@ -84,33 +78,42 @@ void render()
                 // Gets color from sphere if hit occurs
                 if (hit_check)
                 {
+                    // Resets color
+                    drawn_pixel = pixel(0.0f, 0.0f, 0.0f);
+                    
                     // Gets normalized vector to camera (Assumes camera is at origin
-                    eye_vec_norm = point() - hit;
+                    eye_vec_norm = (point() - hit).normalize();
 
                     // Calculates incidence of light at hit
-                    for (int i = 0; i < light_vec.size(); i++)
+                    for (int j = 0; j < light_vec.size(); j++)
                     {
                         // Gets normalized vector to light
-                        light_vec_norm = light_vec[i].get_position() - hit;
+                        light_vec_norm = (light_vec[j].get_position() - hit).normalize();
 
                         // Gets reflected vector to light
-                        reflect_vec_norm = 2 * (light_vec_norm * normal_vec_norm) * normal_vec_norm - light_vec_norm;
+                        reflect_vec_norm = (2 * (light_vec_norm * normal_vec_norm) * normal_vec_norm - light_vec_norm).normalize();
 
                         // Calculating diffuse and specular light
-                        pixel diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[i], normal_vec_norm, light_vec_norm);
-                        pixel specular_color = geometry_vec[i].light_specular_calc(light_vec[i], eye_vec_norm, reflect_vec_norm);
+                        pixel diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[j], normal_vec_norm, light_vec_norm);
+                        pixel specular_color = geometry_vec[i].light_specular_calc(light_vec[j], eye_vec_norm, reflect_vec_norm);
 
                         // Adding light intensities
                         drawn_pixel = drawn_pixel + diffuse_color + specular_color;
                     }
 
-                    // Exits loop once light is calculated
+                    // Exits from loop with first hit
                     break;
                 }
             }
 
+            // Caps the colors of the pixel
+            drawn_pixel.cap_rgb();
+
             // Draws color to pixel buffer
             frame_buffer[j + i * width] = drawn_pixel;
+
+            //TEST
+            //cout << drawn_pixel << endl;
         }
     }
 

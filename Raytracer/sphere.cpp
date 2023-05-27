@@ -84,7 +84,7 @@ bool sphere::ray_sphere_intersect_test (
 		hit = vec * (proj_vec_length - sqrtf(radius * radius - dist_vec_length_squared));
 
 		// Calculates the normal to the surface
-		normal_vec_norm = hit - center;
+		normal_vec_norm = (hit - center).normalize();
 
 		return(hit_check);
 	}
