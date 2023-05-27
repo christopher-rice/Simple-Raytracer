@@ -51,3 +51,33 @@ void pixel::set_rgb(float red, float green, float blue)
 	this->green = green;
 	this->blue = blue;
 }
+
+// Adding two pixels
+pixel pixel::operator+(const pixel & pix) const
+{
+	float new_red = this->red + pix.get_red();
+	float new_green = this->green + pix.get_green();
+	float new_blue = this->blue + pix.get_blue();
+
+	return(pixel(new_red, new_green, new_blue));
+}
+
+// Multiplying a pixel and a scalar (pixel first)
+pixel operator*(const pixel& pix, float scalar)
+{
+	float new_red = pix.get_red() * scalar;
+	float new_green = pix.get_green() * scalar;
+	float new_blue = pix.get_blue() * scalar;
+
+	return(pixel(new_red, new_green, new_blue));
+}
+
+// Multiplying a pixel and a scalar (scalar first)
+pixel operator*(float scalar, const pixel& pix)
+{
+	float new_red = pix.get_red() * scalar;
+	float new_green = pix.get_green() * scalar;
+	float new_blue = pix.get_blue() * scalar;
+
+	return(pixel(new_red, new_green, new_blue));
+}

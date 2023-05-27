@@ -34,6 +34,15 @@ public:
 
     // Sets full RGB
     void set_rgb(float red, float green, float blue);
+
+    // Adding two pixels
+    pixel operator+(const pixel &pix) const;
 };
+
+// Multiplying a pixel and a scalar (pixel first)
+pixel operator*(const pixel& pix, float scalar);
+
+// Multiplying a pixel and a scalar (scalar first)
+pixel operator*(float scalar, const pixel& pix);
 
 #endif
