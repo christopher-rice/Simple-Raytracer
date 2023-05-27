@@ -24,34 +24,6 @@ pixel sphere_color1(0.0f, 0.0f, 1.0f);
 pixel sphere_color2(1.0f, 0.0f, 0.0f);
 pixel sphere_color3(0.0f, 1.0f, 0.0f);
 
-// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
-bool ray_sphere_intersect_test(
-    const sphere& sphere,       // Sphere to be intersected
-    const my_vector& vec        // Ray doing the intersection (must be normalized)
-)
-{
-    // Gets vector from origin (camera location) to center of sphere
-    my_vector OriginToCenter = sphere.get_center();
-
-    // Finds dot product between ray and vector to center of sphere
-    float dot_prod = vec * OriginToCenter;
-
-    // If the ray and vector to center of sphere are facing opposite directions then intersection isn't possible
-    if (dot_prod < 0)
-    {
-        return(false);
-    }
-
-    // Finds projection of vector to center of sphere on to ray
-    my_vector proj_vec = vec * dot_prod;
-
-    // Finds vector from center of sphere to tip of projection
-    my_vector dist_vec = proj_vec - sphere.get_center();
-
-    // Intersection occurs if the radius is greater than or equal to the length of the distance vector
-    return(dist_vec.get_length() <= sphere.get_radius());
-}
-
 // Renders the image to the frame buffer
 void render()
 {
@@ -80,9 +52,9 @@ void render()
             my_vector view_vec_norm = view_vec.normalize();
 
             // Tests if view vector intersects with spheres
-            bool is_intersect1 = ray_sphere_intersect_test(sphere1, view_vec_norm);
-            bool is_intersect2 = ray_sphere_intersect_test(sphere2, view_vec_norm);
-            bool is_intersect3 = ray_sphere_intersect_test(sphere3, view_vec_norm);
+            bool is_intersect1 = sphere1.ray_sphere_intersect_test(view_vec_norm);
+            bool is_intersect2 = sphere2.ray_sphere_intersect_test(view_vec_norm);
+            bool is_intersect3 = sphere3.ray_sphere_intersect_test(view_vec_norm);
 
             // Puts color to frame buffer depending on intersection or not
             if (is_intersect1)

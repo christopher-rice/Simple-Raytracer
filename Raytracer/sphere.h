@@ -27,6 +27,9 @@ public:
 	// Radius setter
 	void set_radius(float radius);
 
+	// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
+	bool ray_sphere_intersect_test(const my_vector& vec);
+
 	// Overload for output
 	friend ostream& operator<<(ostream& output, const sphere& sphere)
 	{
