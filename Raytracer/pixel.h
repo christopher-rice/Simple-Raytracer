@@ -3,6 +3,9 @@
 #ifndef __PIXEL_H__
 #define __PIXEL_H__
 
+#include <iostream>
+using namespace std;
+
 class pixel
 {
 private:
@@ -37,6 +40,13 @@ public:
 
     // Adding two pixels
     pixel operator+(const pixel &pix) const;
+
+    // Overload for output
+    friend ostream& operator<<(ostream& output, const pixel& pix)
+    {
+        output << "Color = < Red = " << pix.get_red() << ", Green = " << pix.get_green() << ", Blue = " << pix.get_blue() << " >";
+        return output;
+    }
 };
 
 // Multiplying a pixel and a scalar (pixel first)
