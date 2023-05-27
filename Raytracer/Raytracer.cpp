@@ -18,7 +18,7 @@ const float pi = 3.141592741012573242187500;
 pixel background_color(0.0f, 0.0f, 0.0f);
 
 // Singular light in the scene at the origin
-light scene_light;
+light scene_light(point(-2.0f, 1.0f, 0.0f));
 
 // Renders the image to the frame buffer
 void render()
@@ -77,10 +77,13 @@ void render()
 
                     // Calculates incidence of light at hit
                     light_incidence = geometry_vec[i].light_incidence_calc(hit, scene_light);
+
+                    // Adjusting sphere color to light
+                    drawn_pixel.set_red(drawn_pixel.get_red() * light_incidence);
+                    drawn_pixel.set_green(drawn_pixel.get_green() * light_incidence);
+                    drawn_pixel.set_blue(drawn_pixel.get_blue() * light_incidence);
                 }
             }
-
-            cout << light_incidence << endl;
 
             // Draws color to pixel buffer
             frame_buffer[j + i * width] = drawn_pixel;
