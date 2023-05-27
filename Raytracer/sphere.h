@@ -37,10 +37,14 @@ public:
 	void set_color(const pixel& color);
 
 	// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
-	bool ray_sphere_intersect_test(const my_vector& vec, point& hit) const;
+	bool ray_sphere_intersect_test(const my_vector& vec, 
+								   point& hit, 
+								   my_vector& normal_vec_norm) const;
 
-	// Calculates the incidence of specific light on specific point
-	float light_incidence_calc(const point& hit, const light& light) const;
+	// Calculates the diffuse light componen
+	float light_diffuse_calc(const point& hit, const light& light) const;
+
+	// Calculates the 
 
 	// Overload for output
 	friend ostream& operator<<(ostream& output, const sphere& sphere)

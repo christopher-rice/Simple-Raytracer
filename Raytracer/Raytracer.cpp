@@ -57,8 +57,7 @@ void render()
             float y_view = -1.0f * tanf((fov / (2 * aspect_ratio)) * (pi / 180)) * ((2.0f * i + 1.0f - height) / height);
             
             // Creating the normalized view vector
-            my_vector view_vec(x_view, y_view, -1.0f, 1.0f);
-            my_vector view_vec_norm = view_vec.normalize();
+            my_vector view_vec_norm = my_vector(x_view, y_view, -1.0f, 1.0f).normalize();
 
             // Color of pixel to be drawn to screen
             pixel drawn_pixel = background_color;
@@ -67,6 +66,12 @@ void render()
             bool hit_check;
             point hit;
 
+            // Vectors used for light calculations
+            my_vector eye_vec_norm; // Vector from hit point to camera
+            my_vector normal_vec_norm; // Vector normal to surface
+            my_vector light_vec_norm; // Vector from hit point to light
+            my_vector reflect_vec_norm; // Vector of light vector reflected across normal
+
             // Incidence of light at point
             float light_incidence = 0.0f;
 
@@ -74,7 +79,7 @@ void render()
             for (int i = 0; i < geometry_vec.size(); i++)
             {
                 // Performs ray-sphere intersection
-                hit_check = geometry_vec[i].ray_sphere_intersect_test(view_vec_norm, hit);
+                hit_check = geometry_vec[i].ray_sphere_intersect_test(view_vec_norm, hit, normal_vec_norm);
 
                 // Gets color from sphere if hit occurs
                 if (hit_check)
@@ -84,7 +89,7 @@ void render()
                     // Calculates incidence of light at hit
                     for (int i = 0; i < light_vec.size(); i++)
                     {
-                        light_incidence += geometry_vec[i].light_incidence_calc(hit, scene_light);
+                        light_incidence += geometry_vec[i].light_diffuse_calc(hit, scene_light);
                     }
 
                     // Caps the light incidence at 1
@@ -97,6 +102,9 @@ void render()
                     drawn_pixel.set_red(drawn_pixel.get_red() * light_incidence);
                     drawn_pixel.set_green(drawn_pixel.get_green() * light_incidence);
                     drawn_pixel.set_blue(drawn_pixel.get_blue() * light_incidence);
+
+                    // Exits loop once light is calculated
+                    break;
                 }
             }
 

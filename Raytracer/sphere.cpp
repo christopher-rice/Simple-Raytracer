@@ -47,7 +47,8 @@ void sphere::set_color(const pixel& color)
 // Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
 bool sphere::ray_sphere_intersect_test (
 	const my_vector& vec,        // Ray doing the intersection (must be normalized)
-	point& hit					 // Point where the ray hits the sphere
+	point& hit,					 // Point where the ray hits the sphere
+	my_vector& normal_vec_norm   // Vector normal to surface
 ) const
 {
 	// Gets vector from origin (camera location) to center of sphere
@@ -82,6 +83,9 @@ bool sphere::ray_sphere_intersect_test (
 		// Calculates hit point
 		hit = vec * (proj_vec_length - sqrtf(radius * radius - dist_vec_length_squared));
 
+		// Calculates the normal to the surface
+		normal_vec_norm = hit - center;
+
 		return(hit_check);
 	}
 
@@ -89,7 +93,7 @@ bool sphere::ray_sphere_intersect_test (
 }
 
 // Calculates the incidence of specific light on specific point (Returns a value between 0 to 1 with 1 being direct)
-float sphere::light_incidence_calc(
+float sphere::light_diffuse_calc(
 	const point& hit,
 	const light& light)
 	const
