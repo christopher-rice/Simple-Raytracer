@@ -53,10 +53,18 @@ void render()
             // Color of pixel to be drawn to screen
             pixel drawn_pixel = background_color;
 
+            // Point and check for hit
+            bool hit_check;
+            point hit;
+
             // Tests if view vector intersects with spheres
             for (int i = 0; i < geometry_vec.size(); i++)
             {
-                if (geometry_vec[i].ray_sphere_intersect_test(view_vec_norm))
+                // Performs ray-sphere intersection
+                hit_check = geometry_vec[i].ray_sphere_intersect_test(view_vec_norm, hit);
+
+                // Gets color from sphere if hit occurs
+                if (hit_check)
                 {
                     drawn_pixel = geometry_vec[i].get_color();
                 }

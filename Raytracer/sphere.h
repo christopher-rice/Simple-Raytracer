@@ -36,7 +36,7 @@ public:
 	void set_color(const pixel& color);
 
 	// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
-	bool ray_sphere_intersect_test(const my_vector& vec) const;
+	bool ray_sphere_intersect_test(const my_vector& vec, point& hit) const;
 
 	// Overload for output
 	friend ostream& operator<<(ostream& output, const sphere& sphere)
