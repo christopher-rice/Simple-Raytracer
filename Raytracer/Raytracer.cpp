@@ -34,6 +34,12 @@ void render()
     // Vector that contains all pixels in the pic
     vector<pixel> frame_buffer(width * height);
 
+    // Vector that will contain all lights within the scene
+    vector<light> light_vec = {
+        light(point(-2.0f, 1.0f, 0.0f), 0.25f),
+        light(point(2.0f, -1.0f, 0.0f), 0.7f)
+    };
+
     // Vector that will contain all spheres to be drawn
     vector<sphere> geometry_vec = {
         sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, pixel(0.0f, 0.0f, 1.0f)),
@@ -76,7 +82,16 @@ void render()
                     drawn_pixel = geometry_vec[i].get_color();
 
                     // Calculates incidence of light at hit
-                    light_incidence = geometry_vec[i].light_incidence_calc(hit, scene_light);
+                    for (int i = 0; i < light_vec.size(); i++)
+                    {
+                        light_incidence += geometry_vec[i].light_incidence_calc(hit, scene_light);
+                    }
+
+                    // Caps the light incidence at 1
+                    if (light_incidence > 1.0f)
+                    {
+                        light_incidence = 1.0f;
+                    }
 
                     // Adjusting sphere color to light
                     drawn_pixel.set_red(drawn_pixel.get_red() * light_incidence);
