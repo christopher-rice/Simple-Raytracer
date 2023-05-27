@@ -17,6 +17,9 @@ const float pi = 3.141592741012573242187500;
 // Colors for background and sphere
 pixel background_color(0.0f, 0.0f, 0.0f);
 
+// Ambient light intensity (ranges from 0 to 1)
+float ambient_light_intensity = 0.25;
+
 // Renders the image to the frame buffer
 void render()
 {
@@ -97,9 +100,11 @@ void render()
                         pixel diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[j], normal_vec_norm, light_vec_norm);
                         pixel specular_color = geometry_vec[i].light_specular_calc(light_vec[j], eye_vec_norm, reflect_vec_norm);
 
-                        // Adding light intensities
+                        // Adding diffuse and specular light intensities
                         drawn_pixel = drawn_pixel + diffuse_color + specular_color;
                     }
+
+                    drawn_pixel = drawn_pixel + (geometry_vec[i].get_color() * ambient_light_intensity);
 
                     // Exits from loop with first hit
                     break;
