@@ -42,9 +42,9 @@ void render()
 
     // Vector that contains all geometry in the scene
     vector<sphere> geometry_vec = {
-        sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, pixel(0.0f, 0.0f, 1.0f), 1.0f),
-        sphere(point(2.0f, -1.0f, -5.0f), 0.7f, pixel(1.0f, 0.0f, 0.0f), 5.0f),
-        sphere(point(0.0f, 0.0f, -5.0f), 1.0f, pixel(0.0f, 1.0f, 0.0f), 10.0f)
+        sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, pixel(0.0f, 0.0f, 1.0f), pixel(1.0f, 1.0f, 1.0f), pixel(0.0f, 0.0f, 1.0f), 1.0f),
+        sphere(point(2.0f, -1.0f, -5.0f), 0.7f, pixel(1.0f, 0.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 0.0f, 0.0f), 5.0f),
+        sphere(point(0.0f, 0.0f, -5.0f), 1.0f, pixel(0.0f, 1.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(0.0f, 1.0f, 0.0f), 10.0f)
     };
 
     // Looping through all the pixels in the frame buffer
@@ -105,7 +105,7 @@ void render()
                         drawn_pixel = drawn_pixel + specular_color;
                     }
 
-                    //drawn_pixel = drawn_pixel + (geometry_vec[i].get_color() * ambient_light_intensity);
+                    //drawn_pixel = drawn_pixel + (geometry_vec[i].get_ambient_color() * ambient_light_intensity);
 
                     // Exits from loop with first hit
                     break;

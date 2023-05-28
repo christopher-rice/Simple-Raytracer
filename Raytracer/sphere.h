@@ -10,14 +10,21 @@
 class sphere
 {
 private:
-	point center;		// Point that represents 3D position of center of sphere
-	float radius;		// The radius of the sphere
-	pixel color;		// Color of the sphere
-	float shininess;	// Shininess of the sphere
+	point center;				// Point that represents 3D position of center of sphere
+	float radius;				// The radius of the sphere
+	pixel diffuse_color;		// Diffuse color of the sphere
+	pixel specular_color;		// Specular color of the sphere
+	pixel ambient_color;        // Ambient color of the sphere
+	float shininess;			// Shininess of the sphere
 
 public:
 	// Constructor
-	sphere(const point& center = point(0.0f, 0.0f, 0.0f), float radius = 1.0f, const pixel& color = pixel(0.0f, 0.0f, 0.0f), float shininess = 1.0f);
+	sphere(const point& center = point(0.0f, 0.0f, 0.0f), 
+		   float radius = 1.0f, 
+		   const pixel& diffuse_color = pixel(0.0f, 0.0f, 0.0f), 
+		   const pixel& specular_color = pixel(0.0f, 0.0f, 0.0f),
+		   const pixel& ambient_color = pixel(0.0f, 0.0f, 0.0f),
+		   float shininess = 1.0f);
 
 	// Center getter
 	point get_center() const;
@@ -31,11 +38,23 @@ public:
 	// Radius setter
 	void set_radius(float radius);
 
-	// Color getter
-	pixel get_color() const;
+	// Diffuse color getter
+	pixel get_diffuse_color() const;
 
-	// Color setter
-	void set_color(const pixel& color);
+	// Diffuse color setter
+	void set_diffuse_color(const pixel& diffuse_color);
+
+	// Specular color getter
+	pixel get_specular_color() const;
+
+	// Specular color setter
+	void set_specular_color(const pixel& specular_color);
+
+	// Ambient color getter
+	pixel get_ambient_color() const;
+
+	// Ambient color setter
+	void set_ambient_color(const pixel& ambient_color);
 
 	// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
 	bool ray_sphere_intersect_test(const my_vector& vec, 
