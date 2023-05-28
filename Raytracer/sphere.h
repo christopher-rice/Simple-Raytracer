@@ -10,13 +10,14 @@
 class sphere
 {
 private:
-	point center;	// Point that represents 3D position of center of sphere
-	float radius;	// The radius of the sphere
-	pixel color;	// Color of the sphere
+	point center;		// Point that represents 3D position of center of sphere
+	float radius;		// The radius of the sphere
+	pixel color;		// Color of the sphere
+	float shininess;	// Shininess of the sphere
 
 public:
 	// Constructor
-	sphere(const point& center = point(0.0f, 0.0f, 0.0f), float radius = 1.0f, const pixel& color = pixel(0.0f, 0.0f, 0.0f));
+	sphere(const point& center = point(0.0f, 0.0f, 0.0f), float radius = 1.0f, const pixel& color = pixel(0.0f, 0.0f, 0.0f), float shininess = 1.0f);
 
 	// Center getter
 	point get_center() const;

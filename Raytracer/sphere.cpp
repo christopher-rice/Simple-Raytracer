@@ -1,11 +1,12 @@
 #include "sphere.h"
 
 // Constructor
-sphere::sphere(const point& center, float radius, const pixel& color)
+sphere::sphere(const point& center, float radius, const pixel& color, float shininess)
 {
 	this->center = center;
 	this->radius = radius;
 	this->color = color;
+	this->shininess = shininess;
 }
 
 // Center getter
@@ -109,5 +110,5 @@ pixel sphere::light_specular_calc(
 	const my_vector& reflect_vec_norm
 ) const
 {
-	return(color * (light.get_intensity() * (eye_vec_norm * reflect_vec_norm)));
+	return(color * (light.get_intensity() * powf(eye_vec_norm * reflect_vec_norm, shininess)));
 }
