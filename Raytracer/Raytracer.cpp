@@ -36,8 +36,8 @@ void render()
 
     // Vector that will contain all lights within the scene
     vector<light> light_vec = {
-        light(point(-5.0f, 3.0f, 0.0f), 0.2f),
-        light(point(5.0f, -1.0f, 0.0f), 0.2f)
+        light(point(-5.0f, 3.0f, 0.0f), 0.3f),
+        light(point(5.0f, -1.0f, 0.0f), 0.3f)
     };
 
     // Vector that contains all geometry in the scene
