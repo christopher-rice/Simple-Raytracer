@@ -36,14 +36,16 @@ void render()
 
     // Vector that will contain all lights within the scene
     vector<light> light_vec = {
-        light(point(-2.0f, 1.0f, 0.0f), 0.5f),
-        //light(point(2.0f, -1.0f, 0.0f), 0.7f)
+        light(point(-5.0f, 3.0f, 0.0f), 0.2f),
+        light(point(5.0f, -1.0f, 0.0f), 0.2f)
     };
 
     // Vector that contains all geometry in the scene
     vector<sphere> geometry_vec = {
         sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, pixel(0.0f, 0.0f, 1.0f), pixel(1.0f, 1.0f, 1.0f), pixel(0.0f, 0.0f, 1.0f), 1.0f),
+        sphere(point(-2.0f, -1.0f, -5.0f), 0.6f, pixel(1.0f, 0.0f, 1.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 0.0f, 1.0f), 3.0f),
         sphere(point(2.0f, -1.0f, -5.0f), 0.7f, pixel(1.0f, 0.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 0.0f, 0.0f), 5.0f),
+        sphere(point(2.0f, 1.0f, -5.0f), 0.3f, pixel(1.0f, 1.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 1.0f, 0.0f), 7.0f),
         sphere(point(0.0f, 0.0f, -5.0f), 1.0f, pixel(0.0f, 1.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(0.0f, 1.0f, 0.0f), 10.0f)
     };
 
@@ -97,15 +99,14 @@ void render()
                         reflect_vec_norm = (2 * (light_vec_norm * normal_vec_norm) * normal_vec_norm - light_vec_norm).normalize();
 
                         // Calculating diffuse and specular light
-                        //pixel diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[j], normal_vec_norm, light_vec_norm);
+                        pixel diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[j], normal_vec_norm, light_vec_norm);
                         pixel specular_color = geometry_vec[i].light_specular_calc(light_vec[j], eye_vec_norm, reflect_vec_norm);
 
                         // Adding diffuse and specular light intensities
-                        //drawn_pixel = drawn_pixel + diffuse_color; //+ specular_color;
-                        drawn_pixel = drawn_pixel + specular_color;
+                        drawn_pixel = drawn_pixel + diffuse_color + specular_color;
                     }
 
-                    //drawn_pixel = drawn_pixel + (geometry_vec[i].get_ambient_color() * ambient_light_intensity);
+                    drawn_pixel = drawn_pixel + (geometry_vec[i].get_ambient_color() * ambient_light_intensity);
 
                     // Exits from loop with first hit
                     break;
