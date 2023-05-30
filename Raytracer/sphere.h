@@ -56,10 +56,11 @@ public:
 	// Ambient color setter
 	void set_ambient_color(const pixel& ambient_color);
 
-	// Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
+	// Checks if ray intersects with sphere (Default argument assumes ray starts from origin)
 	bool ray_sphere_intersect_test(const my_vector& vec, 
 								   point& hit, 
-								   my_vector& normal_vec_norm) const;
+								   my_vector& normal_vec_norm,
+								   const point& origin = point(0.0f, 0.0f, 0.0f)) const;
 
 	// Calculates the diffuse light component
 	pixel light_diffuse_calc(const light& light, const my_vector& normal_vec_norm, const my_vector& light_vec_norm) const;

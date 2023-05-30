@@ -80,11 +80,12 @@ void sphere::set_ambient_color(const pixel& ambient_color)
 bool sphere::ray_sphere_intersect_test (
 	const my_vector& vec,        // Ray doing the intersection (must be normalized)
 	point& hit,					 // Point where the ray hits the sphere
-	my_vector& normal_vec_norm   // Vector normal to surface
+	my_vector& normal_vec_norm,  // Vector normal to surface
+	const point& origin			 // Starting point of the ray
 ) const
 {
-	// Gets vector from origin (camera location) to center of sphere
-	my_vector OriginToCenter = this->get_center();
+	// Gets vector from origin of ray to center of sphere
+	my_vector OriginToCenter = this->get_center() - origin;
 
 	// Finds dot product between ray and vector to center of sphere
 	float dot_prod = vec * OriginToCenter;
@@ -113,7 +114,7 @@ bool sphere::ray_sphere_intersect_test (
 		float proj_vec_length = proj_vec.get_length();
 
 		// Calculates hit point
-		hit = vec * (proj_vec_length - sqrtf(radius * radius - dist_vec_length_squared));
+		hit = origin + vec * (proj_vec_length - sqrtf(radius * radius - dist_vec_length_squared));
 
 		// Calculates the normal to the surface
 		normal_vec_norm = (hit - center).normalize();
