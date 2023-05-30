@@ -78,7 +78,7 @@ void sphere::set_ambient_color(const pixel& ambient_color)
 
 // Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
 bool sphere::ray_sphere_intersect_test (
-	const my_vector& vec,        // Ray doing the intersection (must be normalized)
+	const my_vector& vec_norm,        // Ray doing the intersection (must be normalized)
 	point& hit,					 // Point where the ray hits the sphere
 	my_vector& normal_vec_norm,  // Vector normal to surface
 	const point& origin			 // Starting point of the ray
@@ -88,7 +88,7 @@ bool sphere::ray_sphere_intersect_test (
 	my_vector OriginToCenter = this->get_center() - origin;
 
 	// Finds dot product between ray and vector to center of sphere
-	float dot_prod = vec * OriginToCenter;
+	float dot_prod = vec_norm * OriginToCenter;
 
 	// If the ray and vector to center of sphere are facing opposite directions then intersection isn't possible
 	if (dot_prod < 0)
@@ -97,7 +97,7 @@ bool sphere::ray_sphere_intersect_test (
 	}
 
 	// Finds projection of vector to center of sphere on to ray
-	my_vector proj_vec = vec * dot_prod;
+	my_vector proj_vec = vec_norm * dot_prod;
 
 	// Finds vector from center of sphere to tip of projection
 	my_vector dist_vec = proj_vec - this->get_center();
@@ -114,7 +114,7 @@ bool sphere::ray_sphere_intersect_test (
 		float proj_vec_length = proj_vec.get_length();
 
 		// Calculates hit point
-		hit = origin + vec * (proj_vec_length - sqrtf(radius * radius - dist_vec_length_squared));
+		hit = origin + vec_norm * (proj_vec_length - sqrtf(radius * radius - dist_vec_length_squared));
 
 		// Calculates the normal to the surface
 		normal_vec_norm = (hit - center).normalize();
