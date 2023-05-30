@@ -12,7 +12,10 @@
 using namespace std;
 
 // Value of pi
-const float pi = 3.141592741012573242187500;
+const float pi = 3.141592741012573242187500f;
+
+// Value to make sure rays don't intersect with the geometry they originate from
+const float epsilon = 0.001f;
 
 // Colors for background and sphere
 pixel background_color(0.0f, 0.0f, 0.0f);
