@@ -85,10 +85,10 @@ bool sphere::ray_sphere_intersect_test (
 ) const
 {
 	// Gets vector from origin of ray to center of sphere
-	my_vector OriginToCenter = this->get_center() - origin;
+	my_vector origin_to_center = this->get_center() - origin;
 
 	// Finds dot product between ray and vector to center of sphere
-	float dot_prod = vec_norm * OriginToCenter;
+	float dot_prod = vec_norm * origin_to_center;
 
 	// If the ray and vector to center of sphere are facing opposite directions then intersection isn't possible
 	if (dot_prod < 0)
@@ -100,7 +100,7 @@ bool sphere::ray_sphere_intersect_test (
 	my_vector proj_vec = vec_norm * dot_prod;
 
 	// Finds vector from center of sphere to tip of projection
-	my_vector dist_vec = proj_vec - this->get_center();
+	my_vector dist_vec = proj_vec - origin_to_center;
 
 	// Intersection occurs if the radius is greater than or equal to the length of the distance vector
 	bool hit_check = dist_vec.get_length() <= this->get_radius();
