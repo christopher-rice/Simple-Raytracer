@@ -23,6 +23,103 @@ pixel background_color(0.0f, 0.0f, 0.0f);
 // Ambient light intensity (ranges from 0 to 1)
 float ambient_light_intensity = 0.15;
 
+// Sends a ray out into the scene
+pixel ray_cast(const my_vector& view_vec_norm,
+               const vector<sphere>& geometry_vec,
+               const vector<light>& light_vec)
+{
+    // Color of pixel to be drawn to screen
+    pixel drawn_pixel = background_color;
+
+    // Point and check for hit
+    bool hit_check;
+    point hit;
+
+    // Vectors used for light calculations
+    my_vector eye_vec_norm; // Vector from hit point to camera
+    my_vector normal_vec_norm; // Vector normal to surface
+    my_vector light_vec_norm; // Vector from hit point to light
+    my_vector reflect_vec_norm; // Vector of light vector reflected across normal
+
+    // Tests if view vector intersects with spheres
+    for (int i = 0; i < geometry_vec.size(); i++)
+    {
+        // Performs ray-sphere intersection
+        hit_check = geometry_vec[i].ray_sphere_intersect_test(view_vec_norm, hit, normal_vec_norm);
+
+        // Gets color from sphere if hit occurs
+        if (hit_check)
+        {
+            // Sets default colors
+            drawn_pixel = pixel(0.0f, 0.0f, 0.0f);
+            pixel diffuse_color = pixel(0.0f, 0.0f, 0.0f);
+            pixel specular_color = pixel(0.0f, 0.0f, 0.0f);
+
+            // Gets normalized vector to camera (Assumes camera is at origin
+            eye_vec_norm = (point() - hit).normalize();
+
+            // Calculates incidence of light at hit
+            for (int j = 0; j < light_vec.size(); j++)
+            {
+                // Indicates if point is in shadow
+                bool is_shadow = false;
+
+                // Normalized vector from hit to other sphere
+                my_vector shadow_check_vec_norm = (light_vec[j].get_position() - hit).normalize();
+
+                // Origin of vector from hit to other sphere with a little bit of epsilon added
+                point shadow_check_vec_origin = hit + (shadow_check_vec_norm * epsilon);
+
+                // Point where check hits and normal vector on surface
+                point shadow_check_hit;
+                my_vector shadow_check_normal_norm;
+
+                // Checks if there is any geometry blocking the light
+                for (int k = 0; k < geometry_vec.size(); k++)
+                {
+                    if (k != i)
+                    {
+                        is_shadow = geometry_vec[k].ray_sphere_intersect_test(shadow_check_vec_norm, shadow_check_hit, shadow_check_normal_norm, shadow_check_vec_origin);
+
+                        if (is_shadow)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                // Does light calculations if not in shadow
+                if (!is_shadow)
+                {
+                    // Gets normalized vector to light
+                    light_vec_norm = (light_vec[j].get_position() - hit).normalize();
+
+                    // Gets reflected vector to light
+                    reflect_vec_norm = (2 * (light_vec_norm * normal_vec_norm) * normal_vec_norm - light_vec_norm).normalize();
+
+                    // Calculating diffuse and specular light
+                    diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[j], normal_vec_norm, light_vec_norm);
+                    specular_color = geometry_vec[i].light_specular_calc(light_vec[j], eye_vec_norm, reflect_vec_norm);
+                }
+                else
+                {
+                    cout << "SHADOW" << endl;
+                }
+
+                // Adding diffuse and specular light intensities
+                drawn_pixel = drawn_pixel + diffuse_color + specular_color;
+            }
+
+            drawn_pixel = drawn_pixel + (geometry_vec[i].get_ambient_color() * ambient_light_intensity);
+
+            // Exits from loop with first hit
+            break;
+        }
+    }
+
+    return(drawn_pixel);
+}
+
 // Renders the image to the frame buffer
 void render()
 {
@@ -64,94 +161,8 @@ void render()
             // Creating the normalized view vector
             my_vector view_vec_norm = my_vector(x_view, y_view, -1.0f, 1.0f).normalize();
 
-            // Color of pixel to be drawn to screen
-            pixel drawn_pixel = background_color;
-
-            // Point and check for hit
-            bool hit_check;
-            point hit;
-
-            // Vectors used for light calculations
-            my_vector eye_vec_norm; // Vector from hit point to camera
-            my_vector normal_vec_norm; // Vector normal to surface
-            my_vector light_vec_norm; // Vector from hit point to light
-            my_vector reflect_vec_norm; // Vector of light vector reflected across normal
-
-            // Tests if view vector intersects with spheres
-            for (int i = 0; i < geometry_vec.size(); i++)
-            {
-                // Performs ray-sphere intersection
-                hit_check = geometry_vec[i].ray_sphere_intersect_test(view_vec_norm, hit, normal_vec_norm);
-
-                // Gets color from sphere if hit occurs
-                if (hit_check)
-                {
-                    // Sets default colors
-                    drawn_pixel = pixel(0.0f, 0.0f, 0.0f);
-                    pixel diffuse_color = pixel(0.0f, 0.0f, 0.0f);
-                    pixel specular_color = pixel(0.0f, 0.0f, 0.0f);
-                    
-                    // Gets normalized vector to camera (Assumes camera is at origin
-                    eye_vec_norm = (point() - hit).normalize();
-
-                    // Calculates incidence of light at hit
-                    for (int j = 0; j < light_vec.size(); j++)
-                    {
-                        // Indicates if point is in shadow
-                        bool is_shadow = false;
-                        
-                        // Normalized vector from hit to other sphere
-                        my_vector shadow_check_vec_norm = (light_vec[j].get_position() - hit).normalize();
-
-                        // Origin of vector from hit to other sphere with a little bit of epsilon added
-                        point shadow_check_vec_origin = hit + (shadow_check_vec_norm * epsilon);
-
-                        // Point where check hits and normal vector on surface
-                        point shadow_check_hit;
-                        my_vector shadow_check_normal_norm;
-
-                        // Checks if there is any geometry blocking the light
-                        for (int k = 0; k < geometry_vec.size(); k++)
-                        {
-                            if (k != i)
-                            {
-                                is_shadow = geometry_vec[k].ray_sphere_intersect_test(shadow_check_vec_norm, shadow_check_hit, shadow_check_normal_norm, shadow_check_vec_origin);
-
-                                if (is_shadow)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-
-                        // Does light calculations if not in shadow
-                        if (!is_shadow)
-                        {
-                            // Gets normalized vector to light
-                            light_vec_norm = (light_vec[j].get_position() - hit).normalize();
-
-                            // Gets reflected vector to light
-                            reflect_vec_norm = (2 * (light_vec_norm * normal_vec_norm) * normal_vec_norm - light_vec_norm).normalize();
-
-                            // Calculating diffuse and specular light
-                            diffuse_color = geometry_vec[i].light_diffuse_calc(light_vec[j], normal_vec_norm, light_vec_norm);
-                            specular_color = geometry_vec[i].light_specular_calc(light_vec[j], eye_vec_norm, reflect_vec_norm);
-                        }
-                        else
-                        {
-                            cout << "SHADOW" << endl;
-                        }
-
-                        // Adding diffuse and specular light intensities
-                        drawn_pixel = drawn_pixel + diffuse_color + specular_color;
-                    }
-
-                    drawn_pixel = drawn_pixel + (geometry_vec[i].get_ambient_color() * ambient_light_intensity);
-
-                    // Exits from loop with first hit
-                    break;
-                }
-            }
+            // Casts ray in and gets color back
+            pixel drawn_pixel = ray_cast(view_vec_norm, geometry_vec, light_vec);
 
             // Caps the colors of the pixel
             drawn_pixel.cap_rgb();
