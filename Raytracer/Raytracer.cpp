@@ -27,8 +27,8 @@ float ambient_light_intensity = 0.15;
 void render()
 {
     // Width and height of the pic in pixels
-    const int width = 80;
-    const int height = 60;
+    const int width = 800;
+    const int height = 600;
 
     // FOV and aspect ratio of the camera
     const float fov = 60.0f;
@@ -39,13 +39,17 @@ void render()
 
     // Vector that will contain all lights within the scene
     vector<light> light_vec = {
-        light(point(10.0f, 0.0f, 0.0f), 0.3f)
+        light(point(-5.0f, 3.0f, 0.0f), 0.3f),
+        light(point(5.0f, -1.0f, 0.0f), 0.3f)
     };
 
     // Vector that contains all geometry in the scene
     vector<sphere> geometry_vec = {
-        sphere(point(2.0f, 0.0f, -5.0f), 0.5f, pixel(0.0f, 1.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(0.0f, 1.0f, 0.0f), 5.0f),
-        sphere(point(0.0f, 0.0f, -10.0f), 3.0f, pixel(1.0f, 0.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 0.0f, 0.0f), 5.0f)
+        sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, pixel(0.0f, 0.0f, 1.0f), pixel(1.0f, 1.0f, 1.0f), pixel(0.0f, 0.0f, 1.0f), 1.0f),
+        sphere(point(-2.0f, -1.0f, -5.0f), 0.6f, pixel(1.0f, 0.0f, 1.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 0.0f, 1.0f), 3.0f),
+        sphere(point(2.0f, 1.0f, -5.0f), 0.7f, pixel(1.0f, 0.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 0.0f, 0.0f), 5.0f),
+        sphere(point(2.0f, -1.0f, -5.0f), 0.3f, pixel(1.0f, 1.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(1.0f, 1.0f, 0.0f), 7.0f),
+        sphere(point(0.0f, 0.0f, -5.0f), 1.0f, pixel(0.0f, 1.0f, 0.0f), pixel(1.0f, 1.0f, 1.0f), pixel(0.0f, 1.0f, 0.0f), 10.0f)
     };
 
     // Looping through all the pixels in the frame buffer
@@ -109,11 +113,14 @@ void render()
                         // Checks if there is any geometry blocking the light
                         for (int k = 0; k < geometry_vec.size(); k++)
                         {
-                            is_shadow = geometry_vec[k].ray_sphere_intersect_test(shadow_check_vec_norm, shadow_check_hit, shadow_check_normal_norm, shadow_check_vec_origin);
-
-                            if (is_shadow)
+                            if (k != i)
                             {
-                                break;
+                                is_shadow = geometry_vec[k].ray_sphere_intersect_test(shadow_check_vec_norm, shadow_check_hit, shadow_check_normal_norm, shadow_check_vec_origin);
+
+                                if (is_shadow)
+                                {
+                                    break;
+                                }
                             }
                         }
 
@@ -178,24 +185,7 @@ void render()
 int main()
 {
     cout << "Raytracing Start" << endl;
-    //render();
-
-    sphere test_sphere1 = sphere(point(5.0f, 5.0f));
-    my_vector test_ray1 = my_vector(1.0f, 0.0f);
-    point test_origin1 = point(0.0f, 5.0f);
-
-    point test_hit;
-    my_vector test_normal;
-
-    if (test_sphere1.ray_sphere_intersect_test(test_ray1, test_hit, test_normal, test_origin1))
-    {
-        cout << "Passed" << endl;
-    }
-    else
-    {
-        cout << "Failed" << endl;
-    }
-
+    render();
     cout << "Raytracing End" << endl;
 
     return(0);
