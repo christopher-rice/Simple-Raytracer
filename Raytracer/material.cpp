@@ -1,7 +1,6 @@
 #include "material.h"
-#include "pixel.h"
 
-material::material(pixel* diffuse_color,
+material::material(const pixel& diffuse_color,
 	float specular_index,
 	float diffuse_albedo,
 	float specular_albedo)
@@ -13,13 +12,13 @@ material::material(pixel* diffuse_color,
 }
 
 // Diffuse color getter
-pixel* material::get_diffuse_color() const
+pixel material::get_diffuse_color() const
 {
 	return(this->diffuse_color);
 }
 
 // Diffuse color setter
-void material::set_diffuse_color(pixel* diffuse_color)
+void material::set_diffuse_color(pixel diffuse_color)
 {
 	this->diffuse_color = diffuse_color;
 }

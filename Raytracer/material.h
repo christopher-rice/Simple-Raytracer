@@ -3,27 +3,28 @@
 #ifndef __MATERIAL_H__
 #define __MATERIAL_H__
 
-class pixel;
+#include "pixel.h"
 
 class material
 {
 private:
-	pixel* diffuse_color;
+	pixel diffuse_color;
 	float specular_index;
 	float diffuse_albedo;
 	float specular_albedo;
+
 public:
 	// Material constructor
-	material(pixel* diffuse_color,
+	material(const pixel& diffuse_color = pixel(),
 			 float specular_index = 0.0f,
 			 float diffuse_albedo = 0.0f,
 			 float specular_albedo = 0.0f);
 
 	// Diffuse color getter
-	pixel* get_diffuse_color() const;
+	pixel get_diffuse_color() const;
 
 	// Diffuse color setter
-	void set_diffuse_color(pixel* diffuse_color);
+	void set_diffuse_color(pixel diffuse_color);
 
 	// Specular index getter
 	float get_specular_index() const;

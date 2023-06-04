@@ -6,25 +6,20 @@
 #include "my_vector.h"
 #include "pixel.h"
 #include "light.h"
+#include "material.h"
 
 class sphere
 {
 private:
 	point center;				// Point that represents 3D position of center of sphere
-	float radius;				// The radius of the sphere
-	pixel diffuse_color;		// Diffuse color of the sphere
-	pixel specular_color;		// Specular color of the sphere
-	pixel ambient_color;        // Ambient color of the sphere
-	float shininess;			// Shininess of the sphere
+	float radius;				// Radius of the sphere
+	material mat;				// Material of the sphere
 
 public:
 	// Constructor
 	sphere(const point& center = point(0.0f, 0.0f, 0.0f), 
-		   float radius = 1.0f, 
-		   const pixel& diffuse_color = pixel(0.0f, 0.0f, 0.0f), 
-		   const pixel& specular_color = pixel(0.0f, 0.0f, 0.0f),
-		   const pixel& ambient_color = pixel(0.0f, 0.0f, 0.0f),
-		   float shininess = 1.0f);
+		   float radius = 1.0f,
+		   const material& mat = material());
 
 	// Center getter
 	point get_center() const;
@@ -38,23 +33,11 @@ public:
 	// Radius setter
 	void set_radius(float radius);
 
-	// Diffuse color getter
-	pixel get_diffuse_color() const;
+	// Material getter
+	material get_material() const;
 
-	// Diffuse color setter
-	void set_diffuse_color(const pixel& diffuse_color);
-
-	// Specular color getter
-	pixel get_specular_color() const;
-
-	// Specular color setter
-	void set_specular_color(const pixel& specular_color);
-
-	// Ambient color getter
-	pixel get_ambient_color() const;
-
-	// Ambient color setter
-	void set_ambient_color(const pixel& ambient_color);
+	// Material setter
+	void set_material(const material& mat);
 
 	// Checks if ray intersects with sphere (Default argument assumes ray starts from origin)
 	bool ray_sphere_intersect_test(const my_vector& vec, 

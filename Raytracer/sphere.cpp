@@ -2,18 +2,12 @@
 
 // Constructor
 sphere::sphere(const point& center, 
-			   float radius, 
-			   const pixel& diffuse_color, 
-			   const pixel& specular_color,
-			   const pixel& ambient_color,
-			   float shininess)
+			   float radius,
+			   const material& mat)
 {
+	this->mat = mat;
 	this->center = center;
 	this->radius = radius;
-	this->diffuse_color = diffuse_color;
-	this->specular_color = specular_color;
-	this->ambient_color = ambient_color;
-	this->shininess = shininess;
 }
 
 // Center getter
@@ -40,40 +34,16 @@ void sphere::set_radius(float radius)
 	this->radius = radius;
 }
 
-// Diffuse color getter
-pixel sphere::get_diffuse_color() const
+// Material getter
+material sphere::get_material() const
 {
-	return(diffuse_color);
+	return(mat);
 }
 
-// Diffuse color setter
-void sphere::set_diffuse_color(const pixel& diffuse_color)
+// Material setter
+void sphere::set_material(const material& mat)
 {
-	this->diffuse_color = diffuse_color;
-}
-
-// Specular color getter
-pixel sphere::get_specular_color() const
-{
-	return(specular_color);
-}
-
-// Specular color setter
-void sphere::set_specular_color(const pixel& specular_color)
-{
-	this->specular_color = specular_color;
-}
-
-// Ambient color getter
-pixel sphere::get_ambient_color() const
-{
-	return(ambient_color);
-}
-
-// Ambient color setter
-void sphere::set_ambient_color(const pixel& ambient_color)
-{
-	this->specular_color = ambient_color;
+	this->mat = mat;
 }
 
 // Checks if ray intersects with sphere (ASSUMES RAY ORIGINATES FROM ORIGIN
@@ -132,7 +102,7 @@ pixel sphere::light_diffuse_calc(
 	const my_vector& light_vec_norm
 ) const
 {
-	return(diffuse_color * (light.get_intensity() * max(normal_vec_norm * light_vec_norm, 0.0f)));
+	return(mat.get_diffuse_color() * (light.get_intensity() * max(normal_vec_norm * light_vec_norm, 0.0f)));
 }
 
 // Calculates the specular light component
@@ -142,5 +112,5 @@ pixel sphere::light_specular_calc(
 	const my_vector& reflect_vec_norm
 ) const
 {
-	return(specular_color * (light.get_intensity() * powf(max(eye_vec_norm * reflect_vec_norm, 0.0f), shininess)));
+	return(pixel(1.0f, 1.0f, 1.0f) * (light.get_intensity() * powf(max(eye_vec_norm * reflect_vec_norm, 0.0f), mat.get_specular_index())));
 }
