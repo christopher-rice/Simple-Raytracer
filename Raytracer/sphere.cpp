@@ -102,7 +102,7 @@ pixel sphere::light_diffuse_calc(
 	const my_vector& light_vec_norm
 ) const
 {
-	return(mat.get_diffuse_color() * (light.get_intensity() * max(normal_vec_norm * light_vec_norm, 0.0f)));
+	return(mat.get_diffuse_color() * mat.get_diffuse_albedo() * (light.get_intensity() * max(normal_vec_norm * light_vec_norm, 0.0f)));
 }
 
 // Calculates the specular light component
@@ -112,5 +112,11 @@ pixel sphere::light_specular_calc(
 	const my_vector& reflect_vec_norm
 ) const
 {
-	return(pixel(1.0f, 1.0f, 1.0f) * (light.get_intensity() * powf(max(eye_vec_norm * reflect_vec_norm, 0.0f), mat.get_specular_index())));
+	return(pixel(1.0f, 1.0f, 1.0f) * mat.get_specular_albedo() *(light.get_intensity() * powf(max(eye_vec_norm * reflect_vec_norm, 0.0f), mat.get_specular_index())));
+}
+
+// Calculates the ambient light component
+pixel sphere::light_ambient_calc(float ambient_light) const
+{
+	return(mat.get_diffuse_color() * ambient_light);
 }

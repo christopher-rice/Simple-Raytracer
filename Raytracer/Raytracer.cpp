@@ -117,7 +117,8 @@ pixel ray_cast(const my_vector& view_vec_norm,
                 drawn_pixel = drawn_pixel + diffuse_color + specular_color;
             }
 
-            drawn_pixel = drawn_pixel + (geometry_vec[i].get_material().get_diffuse_color() * ambient_light_intensity);
+            // Calculating ambient light
+            drawn_pixel = drawn_pixel + geometry_vec[i].light_ambient_calc(ambient_light_intensity);
 
             // Exits from loop with first hit
             break;

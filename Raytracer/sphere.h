@@ -51,6 +51,9 @@ public:
 	// Calculates the specular light component
 	pixel light_specular_calc(const light& light, const my_vector& eye_vec_norm, const my_vector& reflect_vec_norm) const;
 
+	// Calculates the ambient light component
+	pixel light_ambient_calc(float ambient_light) const;
+
 	// Overload for output
 	friend ostream& operator<<(ostream& output, const sphere& sphere)
 	{
