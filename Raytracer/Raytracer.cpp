@@ -132,7 +132,7 @@ pixel ray_cast(const my_vector& view_vec_norm,
                 reflected_color = ray_cast(view_reflect_vec_norm, geometry_vec, light_vec, depth + 1, hit);
             }
 
-            drawn_pixel = drawn_pixel + reflected_color;
+            drawn_pixel = drawn_pixel + reflected_color * geometry_vec[i].get_material().get_reflection_albedo();
 
             // Calculating ambient light
             drawn_pixel = drawn_pixel + geometry_vec[i].light_ambient_calc(ambient_light_intensity);
@@ -167,11 +167,11 @@ void render()
 
     // Vector that contains all geometry in the scene
     vector<sphere> geometry_vec = {
-        sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, material(pixel(0.0f, 0.0f, 1.0f), 1.0f, 1.0f, 1.0f)),
-        sphere(point(-2.0f, -1.0f, -5.0f), 0.6f, material(pixel(1.0f, 0.0f, 1.0f), 3.0f, 1.0f, 1.0f)),
-        sphere(point(2.0f, 1.0f, -5.0f), 0.7f, material(pixel(1.0f, 0.0f, 0.0f), 5.0f, 1.0f, 1.0f)),
-        sphere(point(2.0f, -1.0f, -5.0f), 0.3f, material(pixel(1.0f, 1.0f, 0.0f), 7.0f, 1.0f, 1.0f)),
-        sphere(point(0.0f, 0.0f, -5.0f), 1.0f, material(pixel(0.0f, 1.0f, 0.0f), 10.0f, 1.0f, 1.0f))
+        sphere(point(-2.0f, 1.0f, -5.0f), 0.5f, material(pixel(0.0f, 0.0f, 1.0f), 1.0f, 1.0f, 1.0f, 0.7f)),
+        sphere(point(-2.0f, -1.0f, -5.0f), 0.6f, material(pixel(1.0f, 0.0f, 1.0f), 3.0f, 1.0f, 1.0f, 0.5f)),
+        sphere(point(2.0f, 1.0f, -5.0f), 0.7f, material(pixel(1.0f, 0.0f, 0.0f), 5.0f, 1.0f, 1.0f, 0.3f)),
+        sphere(point(2.0f, -1.0f, -5.0f), 0.3f, material(pixel(1.0f, 1.0f, 0.0f), 7.0f, 1.0f, 1.0f, 0.1f)),
+        sphere(point(0.0f, 0.0f, -5.0f), 1.0f, material(pixel(1.0f, 1.0f, 1.0f), 10.0f, 0.2f, 1.0f, 1.0f))
     };
 
     // Looping through all the pixels in the frame buffer

@@ -3,12 +3,14 @@
 material::material(const pixel& diffuse_color,
 	float specular_index,
 	float diffuse_albedo,
-	float specular_albedo)
+	float specular_albedo,
+    float reflection_albedo)
 {
 	this->diffuse_color = diffuse_color;
 	this->specular_index = specular_index;
 	this->diffuse_albedo = diffuse_albedo;
 	this->specular_albedo = specular_albedo;
+	this->reflection_albedo = reflection_albedo;
 }
 
 // Diffuse color getter
@@ -57,4 +59,16 @@ float material::get_specular_albedo() const
 void material::set_specular_albedo(float specular_albedo)
 {
 	this->specular_albedo = specular_albedo;
+}
+
+// Reflection albedo getter
+float material::get_reflection_albedo() const
+{
+	return(this->reflection_albedo);
+}
+
+// Reflection albedo setter
+void material::set_reflection_albedo(float reflection_albedo)
+{
+	this->reflection_albedo = reflection_albedo;
 }

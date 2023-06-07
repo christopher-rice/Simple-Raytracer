@@ -12,13 +12,15 @@ private:
 	float specular_index;
 	float diffuse_albedo;
 	float specular_albedo;
+	float reflection_albedo;
 
 public:
 	// Material constructor
 	material(const pixel& diffuse_color = pixel(),
 			 float specular_index = 0.0f,
 			 float diffuse_albedo = 0.0f,
-			 float specular_albedo = 0.0f);
+			 float specular_albedo = 0.0f,
+		     float relfection_albedo = 0.0f);
 
 	// Diffuse color getter
 	pixel get_diffuse_color() const;
@@ -43,6 +45,12 @@ public:
 
 	// Specular albedo setter
 	void set_specular_albedo(float specular_albedo);
+
+	// Reflection albedo getter
+	float get_reflection_albedo() const;
+
+	// Reflection albedo setter
+	void set_reflection_albedo(float reflection_albedo);
 };
 
 #endif

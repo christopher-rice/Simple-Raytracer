@@ -118,5 +118,5 @@ pixel sphere::light_specular_calc(
 // Calculates the ambient light component
 pixel sphere::light_ambient_calc(float ambient_light) const
 {
-	return(mat.get_diffuse_color() * ambient_light);
+	return(mat.get_diffuse_color() * ambient_light * mat.get_diffuse_albedo());
 }
