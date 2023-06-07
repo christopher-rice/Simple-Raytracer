@@ -62,6 +62,7 @@ bool shadow_check(const light& current_light,
 pixel ray_cast(const my_vector& view_vec_norm,
                const vector<sphere>& geometry_vec,
                const vector<light>& light_vec,
+               int depth = 0,
                const point& origin = point(0.0f, 0.0f, 0.0f))
 {
     // Color of pixel to be drawn to screen
@@ -120,7 +121,18 @@ pixel ray_cast(const my_vector& view_vec_norm,
                 drawn_pixel = drawn_pixel + diffuse_color + specular_color;
             }
 
+            // Gets view vector reflected across the normal
+            my_vector view_reflect_vec_norm = (2 * (eye_vec_norm * normal_vec_norm) * normal_vec_norm - eye_vec_norm).normalize();
+
             // Calculating color from reflection
+            pixel reflected_color;
+
+            if (depth <= 4)
+            {
+                reflected_color = ray_cast(view_reflect_vec_norm, geometry_vec, light_vec, depth + 1, hit);
+            }
+
+            drawn_pixel = drawn_pixel + reflected_color;
 
             // Calculating ambient light
             drawn_pixel = drawn_pixel + geometry_vec[i].light_ambient_calc(ambient_light_intensity);
