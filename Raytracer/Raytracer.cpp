@@ -124,8 +124,9 @@ pixel ray_cast(const my_vector& view_vec_norm,
             // Gets view vector reflected across the normal
             my_vector view_reflect_vec_norm = (2 * (eye_vec_norm * normal_vec_norm) * normal_vec_norm - eye_vec_norm).normalize();
 
-            // Calculating color from reflection
+            // Calculating color from reflection and refraction
             pixel reflected_color;
+            pixel refraction_color;
 
             if (depth <= 4)
             {
